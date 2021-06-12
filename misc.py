@@ -9,3 +9,4 @@ cursor = connection.cursor()
 csv_dir = "csv_data"
 csv_suicide_filename = "suicide-death-rates.csv"
 csv_world_suicide = "world_suicide.csv"
+csv_world_population = "world_population_data.csv"
