@@ -1,6 +1,7 @@
 import misc
 import csv_parser
 import db_config
+import graph_builder
 
 connection = misc.connection
 cursor = misc.cursor

@@ -57,7 +57,7 @@ def updatePopulationData(connection, cursor, table_name, **data):
     if headers[0] == 'Year' and headers[1] == 'Population':
         cursor.execute(f"SELECT suicide_rate, population_amount FROM {table_name} WHERE year = {data[headers[0]]}")
         tmp_result = cursor.fetchall()
-        if tmp_result and tmp_result[0][1] == "":
+        if tmp_result and tmp_result[0][1] == f"'{data[headers[1]]}'":
             suicide_amount = math.ceil((float(tmp_result[0][0]) * float(data[headers[1]])) / 100000)
             cursor.execute(
                 f"UPDATE {table_name} SET population_amount = {data[headers[1]]}, suicide_amount = {suicide_amount} WHERE year = {data[headers[0]]}")
@@ -65,4 +65,14 @@ def updatePopulationData(connection, cursor, table_name, **data):
             connection.commit()
             print(f"Added data to {data[headers[0]]} year: {headers[1]}: {data[headers[1]]}\n------------------")
         else:
-            print(f"Data already exists ({data[headers[0]]} year: {headers[1]}: {data[headers[1]]})\n------------------")
+            print(
+                f"Data already exists ({data[headers[0]]} year: {headers[1]}: {data[headers[1]]})\n------------------")
+
+
+def read_data(cursor, table_name):
+    cursor.execute(f"SELECT year, population_amount, suicide_amount FROM {table_name}")
+    tmp_result = cursor.fetchall()
+    if tmp_result:
+        return tmp_result
+    else:
+        return None
